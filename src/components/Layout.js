@@ -51,7 +51,7 @@
        <Header onClose={() => setShow(false)} show={show} />
          <main className="payloadWrapper">{children}</main>
          <footer>
-           © {new Date().getFullYear()}, {data.site.siteMetadata?.title || `Title`}
+           {new Date().getFullYear()} {data.site.siteMetadata?.title || `Title`}
          </footer>
        </div>
        </div>
