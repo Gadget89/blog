@@ -1,58 +1,66 @@
-import * as React from "react";
-import { Helmet } from "react-helmet";
-import Footer from "../components/Footer";
-import Navbar from "../components/Navbar";
-import "./all.sass";
-import useSiteMetadata from "./SiteMetadata";
-import { withPrefix } from "gatsby";
+/**
+ * Layout component that queries for data
+ * with Gatsby's useStaticQuery component
+ *
+ * See: https://www.gatsbyjs.com/docs/use-static-query/
+ */
 
-const TemplateWrapper = ({ children }) => {
-  const { title, description } = useSiteMetadata();
-  return (
-    <div>
-      <Helmet>
-        <html lang="en" />
-        <title>{title}</title>
-        <meta name="description" content={description} />
-
-        <link
-          rel="apple-touch-icon"
-          sizes="180x180"
-          href={`${withPrefix("/")}img/apple-touch-icon.png`}
-        />
-        <link
-          rel="icon"
-          type="image/png"
-          href={`${withPrefix("/")}img/favicon-32x32.png`}
-          sizes="32x32"
-        />
-        <link
-          rel="icon"
-          type="image/png"
-          href={`${withPrefix("/")}img/favicon-16x16.png`}
-          sizes="16x16"
-        />
-
-        <link
-          rel="mask-icon"
-          href={`${withPrefix("/")}img/safari-pinned-tab.svg`}
-          color="#ff4400"
-        />
-        <meta name="theme-color" content="#fff" />
-
-        <meta property="og:type" content="business.business" />
-        <meta property="og:title" content={title} />
-        <meta property="og:url" content="/" />
-        <meta
-          property="og:image"
-          content={`${withPrefix("/")}img/og-image.jpg`}
-        />
-      </Helmet>
-      <Navbar />
-      <div>{children}</div>
-      <Footer />
-    </div>
-  );
-};
-
-export default TemplateWrapper;
+ import React, { useState } from "react"
+ import PropTypes from "prop-types"
+ import { useStaticQuery, graphql, Link } from "gatsby"
+ import { StaticImage } from "gatsby-plugin-image"
+ 
+ import Header from "./Navbar"
+ import "./layout.css"
+ 
+ const Layout = ({ children }) => {
+   const [show, setShow] = useState(false)
+   const data = useStaticQuery(graphql`
+     query SiteTitleQuery {
+       site {
+         siteMetadata {
+           title
+         }
+       }
+     }
+   `)
+ 
+   return (
+     <>
+     <div>
+       <Link to="/">
+         <StaticImage 
+           src="../img/logo_slim.png"
+           width={30}
+           quality={100}
+           formats={["auto", "webp", "avif"]}
+           alt="Icon of magniging glass"
+           className="escape-hatch"
+         />
+       </Link>
+       <div className="navIcon">
+         <img 
+           src="https://res.cloudinary.com/dmcxpmuqw/image/upload/v1640914923/menu.png" 
+           alt="Alt text" 
+           onClick={() => setShow(true)}
+         />
+       </div>
+       
+       
+       <div>
+       <Header onClose={() => setShow(false)} show={show} />
+         <main className="payloadWrapper">{children}</main>
+         <footer>
+           © {new Date().getFullYear()}, {data.site.siteMetadata?.title || `Title`}
+         </footer>
+       </div>
+       </div>
+     </>
+   )
+ }
+ 
+ Layout.propTypes = {
+   children: PropTypes.node.isRequired,
+ }
+ 
+ export default Layout

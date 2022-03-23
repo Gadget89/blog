@@ -1,101 +1,80 @@
-import React from "react";
-import { Link } from "gatsby";
-import github from "../img/github-icon.svg";
-import logo from "../img/logo.svg";
+import * as React from "react"
+// import PropTypes from "prop-types"
+import { Link } from "gatsby"
+// import { StaticImage } from "gatsby-plugin-image"
+import "./header.css"
 
-const Navbar = class extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      active: false,
-      navBarActiveClass: "",
-    };
+const Navbar = props => {
+  if (!props.show) {
+    return null
   }
+  return (
+    <header className="nav" >
+    <div className="nav-content" onClick={e => e.stopPropagation()}>
+      <div className="nav-body">
+        <ul>
+          <li>
+            <h2 className="align">
+              <Link className="link" to="/design">DESIGN</Link>
+            </h2>
+          </li>
+          <ul>
+            <li className="align">
+              <Link className="link" to="/design">BLOG</Link>
+            </li>
+            <li className="align">
+              <Link className="link" to="/services">SERVICES</Link>
+            </li> 
+          </ul>
+          <li>
+            <h2 className="align">
+              <Link className="link" to="/develop">DEVELOP</Link>
+            </h2>
+          </li>
+          <ul>
+            <li className="align">
+              <Link className="link" to="/design">BLOG</Link>
+            </li>
+            <li className="align">
+              <Link className="link" to="/design">PORTFOLIO</Link>
+            </li>
+            <li className="align">
+              <Link className="link" to="/design">SERVICES</Link>
+            </li>
+          </ul>
+          <li>
+            <h2 className="align">
+              <Link className="link" to="/connect">CONNECT</Link>
+            </h2>
+          </li>
+          <ul>
+            <li className="align">
+              <Link className="link" to="/design">ABOUT</Link>
+            </li>
+            <li className="align">
+              <Link className="link" to="/design">INQUIRY</Link>
+            </li>
+          </ul>
+        </ul>
+      </div>
+      <div className="navIcon">
+        <img 
+          src="https://res.cloudinary.com/dmcxpmuqw/image/upload/v1640914898/close.png" 
+          alt="Alt text" 
+          onClick={props.onClose}
+        />
+      </div>
+    </div>
+  </header>
+  )
+}
 
-  toggleHamburger() {
-    // toggle the active boolean in the state
-    this.setState(
-      {
-        active: !this.state.active,
-      },
-      // after state has been updated,
-      () => {
-        // set the class in state for the navbar accordingly
-        this.state.active
-          ? this.setState({
-              navBarActiveClass: "is-active",
-            })
-          : this.setState({
-              navBarActiveClass: "",
-            });
-      }
-    );
-  }
+// Header.propTypes = {
+//   siteTitle: PropTypes.string,
+// }
 
-  render() {
-    return (
-      <nav
-        className="navbar is-transparent"
-        role="navigation"
-        aria-label="main-navigation"
-      >
-        <div className="container">
-          <div className="navbar-brand">
-            <Link to="/" className="navbar-item" title="Logo">
-              <img src={logo} alt="Kaldi" style={{ width: "88px" }} />
-            </Link>
-            {/* Hamburger menu */}
-            <div
-              className={`navbar-burger burger ${this.state.navBarActiveClass}`}
-              data-target="navMenu"
-              role="menuitem"
-              tabIndex={0}
-              onKeyPress={() => this.toggleHamburger()}
-              onClick={() => this.toggleHamburger()}
-            >
-              <span />
-              <span />
-              <span />
-            </div>
-          </div>
-          <div
-            id="navMenu"
-            className={`navbar-menu ${this.state.navBarActiveClass}`}
-          >
-            <div className="navbar-start has-text-centered">
-              <Link className="navbar-item" to="/about">
-                About
-              </Link>
-              <Link className="navbar-item" to="/products">
-                Products
-              </Link>
-              <Link className="navbar-item" to="/blog">
-                Blog
-              </Link>
-              <Link className="navbar-item" to="/contact">
-                Contact
-              </Link>
-              <Link className="navbar-item" to="/contact/examples">
-                Form Examples
-              </Link>
-            </div>
-            <div className="navbar-end has-text-centered">
-              <a
-                className="navbar-item"
-                href="https://github.com/netlify-templates/gatsby-starter-netlify-cms"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <span className="icon">
-                  <img src={github} alt="Github" />
-                </span>
-              </a>
-            </div>
-          </div>
-        </div>
-      </nav>
-    );
-  }
-};
+// Header.defaultProps = {
+//   siteTitle: ``,
+// }
 
-export default Navbar;
+export default Navbar
